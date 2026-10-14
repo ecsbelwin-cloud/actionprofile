@@ -1,26 +1,40 @@
 name: Build Job
-on: 
+
+on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
   Build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
       - name: Maven Build
         run: mvn install
 
-
   Testing:
     runs-on: ubuntu-latest
     needs: Build
+
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
 
       - name: Run tests on main branch
         run: mvn test
